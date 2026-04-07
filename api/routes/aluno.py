@@ -13,6 +13,6 @@ def post_aluno(data:AlunoCreate):
     return criar_aluno(data)
 
 @router.get("/", response_model=list[AlunoOut])
-def get_alunos(data:AlunoCreate):
-    return listar_alunos(data)
+def get_alunos():
+    return listar_alunos()
 

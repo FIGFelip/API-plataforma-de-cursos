@@ -19,31 +19,35 @@ def post_curso(data:CursoCreate):
 def get_cursos():
     return listar_cursos()
 
-@router.get("/{id}", response_model=CursoOut)
-def buscar_curso(id:int):
-    curso = buscar_curso(id)
+@router.get("/{codigo}", response_model=CursoOut)
+def get_curso_by_id(codigo:int):
+    curso = buscar_curso(codigo)
     if not curso:
         raise HTTPException(status_code = 404, detail = "curso não encontrado")
     return  curso
 
-@router.put("/{id}/preco", response_model = CursoOut)
-def put_curso(id:int, data:AlterarPrecoInput):
-    curso = atualizar_preco(id, data.preco)
+@router.put("/{codigo}/preco", response_model = CursoOut)
+def put_curso(codigo:int, data:AlterarPrecoInput):
+    curso = atualizar_preco(codigo, data.preco)
     if not curso:
         raise HTTPException(status_code = 404, detail = "curso não encontrado")
-    return {"codigo": curso.id,
+    return {"codigo": curso.codigo,
             "titulo": curso.titulo,
-            "preço_final": curso.preco_final()
+            "preco": curso.preco,
+            "tipo": curso.tipo,
+            "desconto_percentual": curso.desconto_percentual
             }
 
 
 
-@router.get("/{id}/preco_final")
-
-def get_preco_final(id: int):   
-
-    curso= buscar_curso(id)
+@router.get("/{codigo}/preco_final", response_model=CursoOut)
+def get_preco_final(codigo: int):
+    curso= buscar_curso(codigo)
     if not curso:
         raise HTTPException(status_code = 404, detail = "curso não encontrado")
-    return {"codigo": curso.id,
-            "titulo": curso.titulo}
+    return {"codigo": curso.codigo,
+            "titulo": curso.titulo,
+            "preco": curso.preco_final(),
+            "tipo": curso.tipo,
+            "desconto_percentual": curso.desconto_percentual
+            }

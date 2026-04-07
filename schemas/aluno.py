@@ -8,5 +8,6 @@ class AlunoCreate(BaseModel):
 
 
 class AlunoOut(BaseModel):
+    codigo:int
     nome:str
     email: EmailStr

@@ -4,8 +4,8 @@ from repositories.memory import db
 
 
 def criar_aluno(data):
-    aluno = Aluno(nome=data.nome, email=data.nome)
-    db.alunos[data.id]=aluno
+    aluno = Aluno(nome=data.nome, email=data.email)
+    db.alunos[aluno.codigo]=aluno
     return aluno
 
 def listar_alunos():
@@ -14,25 +14,24 @@ def listar_alunos():
 
 def criar_curso(data)->Curso:
     curso = Curso(
-        id=data.id,
         titulo=data.titulo,
         preco=data.preco,
         tipo=data.tipo
     )
-    db.cursos[data.id]=curso
+    db.cursos[curso.codigo]=curso
     return curso
 
 def listar_cursos():
     return list(db.cursos.values())
 
-def buscar_curso(id:int):
-    curso=db.cursos.get(id)
+def buscar_curso(codigo:int):
+    curso=db.cursos.get(codigo)
     if not curso:
         raise ValueError("Curso não encontrado")
     return curso
 
-def atualizar_preco(id:int, novo_preco:float):
-    curso=db.cursos.get(id)
+def atualizar_preco(codigo:int, novo_preco:float):
+    curso=db.cursos.get(codigo)
     if not curso:
         return None
     if novo_preco<0:
